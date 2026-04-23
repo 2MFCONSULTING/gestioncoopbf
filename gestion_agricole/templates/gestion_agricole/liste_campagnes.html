@@ -1,0 +1,67 @@
+{% extends 'gestion_agricole/base.html' %}
+
+{% block title %}Gestion des Campagnes{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Campagnes Agricoles</h2>
+    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formCampagne">+ Nouvelle Campagne</button>
+</div>
+
+<div class="collapse mb-4" id="formCampagne">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label fw-bold">Nom de la Campagne</label>
+                        {{ form.nom }}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Début</label>
+                        {{ form.date_debut }}
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label fw-bold">Fin</label>
+                        {{ form.date_fin }}
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check">
+                            {{ form.est_active }}
+                            <label class="form-check-label">Campagne en cours</label>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success mt-3 w-100">Lancer la campagne</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover bg-white mb-0">
+        <thead class="table-dark">
+    <tr>
+        <th>Nom</th>
+        <th>Période</th>
+        <th>Statut</th>
+        <th class="text-center">Actions</th>
+    </tr>
+</thead>
+<tbody>
+    {% for c in campagnes %}
+    <tr>
+        <td class="fw-bold">{{ c.nom }}</td>
+        <td>Du {{ c.date_debut }} au {{ c.date_fin }}</td>
+        <td>...statut...</td>
+        <td class="text-center">
+            <a href="{% url 'modifier_campagne' c.pk %}" class="btn btn-warning btn-sm">Modifier</a>
+            <a href="{% url 'supprimer_campagne' c.pk %}" class="btn btn-danger btn-sm" onclick="return confirm('Supprimer cette campagne ?')">Supprimer</a>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+    </table>
+</div>
+{% endblock %}

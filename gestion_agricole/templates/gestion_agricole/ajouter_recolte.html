@@ -1,0 +1,84 @@
+{% extends 'gestion_agricole/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0">Enregistrer une nouvelle récolte</h3>
+        </div>
+        <div class="card-body">
+        <div class="text-danger">{{ form.errors }}</div>
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Producteur</label>
+                        {{ form.producteur }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Campagne Agricole</label>
+                        {{ form.campagne }}
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold">Produit (Maïs, Coton...)</label>
+                        {{ form.produit }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label fw-bold">Quantité</label>
+                        {{ form.quantite }}
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label fw-bold">Unité (Kg, Tonnes)</label>
+                        {{ form.unite }}
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save"></i>
+                         Enregistrer la récolte
+                    </button>
+                    <a href="{% url 'ajouter_recolte' %}" class="btn btn-secondary">Annuler</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr>
+<h4 class="mt-4">Historique des récoltes</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Producteur</th>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Campagne</th>
+            <th class="text-center">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in recoltes %}
+        <tr>
+            <td>{{ r.producteur.nom }}</td>
+            <td>{{ r.produit }}</td>
+            <td>{{ r.quantite }} {{ r.unite }}</td>
+            <td>{{ r.campagne.nom }}</td>
+            <td class="text-center">
+                <a href="{% url 'modifier_recolte' r.pk %}" class="btn btn-sm btn-warning">
+                    <i class="fas fa-edit"></i>
+                </a>
+                <a href="{% url 'supprimer_recolte' r.pk %}" class="btn btn-sm btn-outline-danger">
+                    <i class="fas fa-trash"></i>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</hr>
+{% endblock %}

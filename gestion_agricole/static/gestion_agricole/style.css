@@ -1,0 +1,22 @@
+/* style.css */
+:root {
+    --vert-agri: #28a745;
+    --brun-terre: #6d4c41;
+}
+
+body {
+    background-color: #f8f9fa;
+}
+
+.navbar-custom {
+    background-color: var(--vert-agri);
+}
+
+.card-header {
+    background-color: var(--brun-terre) !important;
+    color: white;
+}
+
+.btn-success {
+    background-color: var(--vert-agri) !important;
+}

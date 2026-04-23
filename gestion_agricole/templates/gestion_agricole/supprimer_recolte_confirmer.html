@@ -1,0 +1,20 @@
+{% extends 'gestion_agricole/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card border-danger shadow">
+        <div class="card-header bg-danger text-white">
+            <h4>Confirmer la suppression</h4>
+        </div>
+        <div class="card-body">
+            <p>Voulez-vous vraiment supprimer la récolte de <strong>{{ recolte.produit }}</strong> ?</p>
+            
+            <form method="post" action="">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Oui, supprimer définitivement</button>
+                <a href="{% url 'ajouter_recolte' %}" class="btn btn-secondary">Non, annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

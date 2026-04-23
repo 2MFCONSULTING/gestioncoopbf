@@ -1,0 +1,76 @@
+{% extends 'gestion_agricole/base.html' %}
+
+{% block title %}Gestion des Membres{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Liste des Membres</h2>
+    <button class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#formAjout">
+        + Nouveau Producteur
+    </button>
+</div>
+
+<div class="collapse mb-4" id="formAjout">
+    <div class="card shadow-sm">
+        <div class="card-header">Saisir un nouveau membre</div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Prénom</label>
+                    {{ form.prenom }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Nom de famille</label>
+                    {{ form.nom }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">N° de Téléphone</label>
+                    {{ form.telephone }}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Village / Localité</label>
+                    {{ form.village }}
+                </div>
+                <button type="submit" class="btn btn-success mt-3 w-100">Enregistrer dans la base</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover bg-white mb-0">
+        <thead class="table-dark">
+            <tr>
+                <th>Prénom</th>
+                <th>Nom</th>
+                <th>Village</th>
+                <th>Téléphone</th>
+                <th class="text-center">Actions</th> </tr>
+        </thead>
+        <tbody>
+            {% for producteur in producteurs %}
+            <tr>
+                <td>{{ producteur.prenom }}</td>
+                <td class="text-uppercase fw-bold">{{ producteur.nom }}</td>
+                <td>{{ producteur.village }}</td>
+                <td><span class="badge bg-info text-dark">{{ producteur.telephone }}</span></td>
+                
+                <td class="text-center">
+                    <a href="{% url 'supprimer_producteur' producteur.pk %}" 
+                       class="btn btn-outline-danger btn-sm"
+                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer {{ producteur.prenom }} {{ producteur.nom }} ?')">
+                       Supprimer
+                    </a>
+                    <a href="{% url 'modifier_producteur' producteur.pk %}" class="btn btn-warning btn-sm">Modifier</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" class="text-center">Aucun membre enregistré pour le moment.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
